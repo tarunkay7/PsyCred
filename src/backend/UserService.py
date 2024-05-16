@@ -129,6 +129,16 @@ def delete_user(user_id):
         # Close database connection
         conn.close()
 
+@app.route('/api/v1/setlanguage', methods=['POST'])
+def set_language():
+    # Assuming JSON data is received in the request body
+    lang_data = request.json
+
+    print(lang_data)
+
+    return 'Language set successfully', 200
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
