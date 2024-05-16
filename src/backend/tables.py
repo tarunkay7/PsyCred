@@ -7,46 +7,48 @@ import requests
 import Levenshtein
 import sqlite3
 
-def get_data_from_pincode(pincode, conn):
-    def pincode_to_district(pincode):
-        POSTAL_URL = 'https://api.postalpincode.in/pincode'
-        response = requests.get(f"{POSTAL_URL}/{pincode}")
-        content = response.json()[0]['PostOffice'][0]
-        return content['District']
-    district = pincode_to_district(pincode)
-    c = conn.cursor()
-    c.execute('SELECT * FROM DistrictInfo')
-    table = c.fetchall()
-    best_score = 100
-    best_row = None
-    for row in table:        
-        score = Levenshtein.distance(row[0], district, weights=(1, 1, 5))
-        if score < best_score:
-            best_score = score
-            best_row = row
-    return best_row
+def insert_train_data(age, education, pincode):
+    """
+    Inserts data into the database
+    Automatically computes metrics based on pincode
+    """
 
-# conn = sqlite3.connect('psy.db')
-# print(get_data_from_pincode(500049, conn))
-
-def insert_train_data(age, education, pincode, conn):
-    district, population, growth, sex_ratio = get_data_from_pincode(pincode, conn)
+    conn = sqlite3.connect('psy.db')
+    def get_data_from_pincode(pincode, conn):
+        def pincode_to_district(pincode):
+            POSTAL_URL = 'https://api.postalpincode.in/pincode'
+            response = requests.get(f"{POSTAL_URL}/{pincode}")
+            content = response.json()[0]['PostOffice'][0]
+            return content['District']
+        district = pincode_to_district(pincode)
+        c = conn.cursor()
+        c.execute('SELECT * FROM DistrictInfo')
+        table = c.fetchall()
+        best_score = 100
+        best_row = None
+        for row in table:        
+            score = Levenshtein.distance(row[0], district, weights=(1, 1, 5))
+            if score < best_score:
+                best_score = score
+                best_row = row
+        return best_row
+    district, population, growth, sex_ratio, literacy = get_data_from_pincode(pincode, conn)
     cursor = conn.cursor()
 
     query = f'''
         INSERT INTO TrainData
-        (age, education, district, population, growth, sex_ratio)
+        (age, education, district, population, growth, sex_ratio, literacy)
         VALUES
-        ({age}, '{education}', '{district}', {population}, {growth}, {sex_ratio})
+        ({age}, '{education}', '{district}', {population}, {growth}, {sex_ratio}, {literacy})
     '''    
 
     cursor.execute(query)
     cursor.close()
     conn.commit()
+    conn.close()
 
+insert_train_data(19, 'High School', 500075)
 
-conn = sqlite3.connect('psy.db')
-insert_train_data(19, 'High School', 500075, conn)
 
 def populate_district_info(conn):
     CENSUS_URL = 'https://www.census2011.co.in/district.php'
@@ -64,13 +66,14 @@ def populate_district_info(conn):
             row_district = row_data[1].text
             row_population = int(row_data[3].text.replace(',', ''))
             row_growth = float(row_data[4].text.replace(' %', ''))
+            row_sex_ratio = int(row_data[5].text)
             row_literacy = float(row_data[6].text) 
 
             query = f'''
                 INSERT INTO DistrictInfo
-                (district, population, growth, sex_ratio)
+                (district, population, growth, sex_ratio, literacy_rate)
                 VALUES
-                ('{row_district}', {row_population}, {row_growth}, {row_literacy})
+                ('{row_district}', {row_population}, {row_growth}, {row_sex_ratio}, {row_literacy})
             '''
 
             cursor.execute(query)
@@ -170,7 +173,7 @@ def create_district_info_table():
             district TEXT,
             population INTEGER,
             growth DECIMAL,
-            sex_ratio INTEGER
+            sex_ratio INTEGER,
             literacy_rate DECIMAL
         );
         '''
@@ -196,7 +199,8 @@ def create_train_table():
             district VARCHAR,
             population INTEGER,
             growth DECIMAL,
-            sex_ratio DECIMAL
+            sex_ratio INTEGER,
+            literacy DECIMAL
         );
         '''
     try:
