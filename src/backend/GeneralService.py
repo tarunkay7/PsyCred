@@ -7,9 +7,7 @@ import random
 app = Flask(__name__)
 
 # Twilio credentials
-account_sid = 'AC7f92d212274e6546bfd99c578c3f748b'
-auth_token = '4979b7bb72637da58cc0fac43863b8fb'
-twilio_phone_number = '8309614765'
+
 
 # Function to establish database connection
 def connect_db():
@@ -68,7 +66,7 @@ def hyperleap_persona():
     # Construct the request headers
     headers = {
         'Content-Type': 'application/json',
-        'x-hl-api-key': 'OWQ0MmI1YTdjOTQxNDUyNGFmODBmMDBhZmM5ZGMwYzU='  # Replace with your actual API key
+        'x-hl-api-key': ''  # Replace with your actual API key
     }
 
     try:
