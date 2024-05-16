@@ -11,7 +11,7 @@ def connect_db():
 
 
 # Create user API endpoint
-@app.route('/create_user', methods=['POST'])
+@app.route('/api/users/v1/create_user', methods=['POST'])
 def create_user():
     conn, cursor = connect_db()
 
@@ -31,7 +31,20 @@ def create_user():
         ''', (
         user_data['name'], user_data['age'], user_data['phone_number'], user_data['education'], user_data['pincode']))
 
-        # Commit the transaction
+        # Retrieve the last inserted primary key value
+        user_id = cursor.lastrowid
+
+        # Insert corresponding entry in the SCORES table with default values
+        cursor.execute('''
+                    INSERT INTO SCORES (user_id, demographic_score, psychometric_test_score)
+                    VALUES (?, 0, 0)
+                ''', (user_id,))
+
+        cursor.execute('''
+                            INSERT INTO creditworthiness_score (user_id, creditworthiness_score)
+                            VALUES (?, 0)
+                        ''', (user_id,))
+
         conn.commit()
 
         return jsonify({'message': 'User created successfully'}), 201
@@ -43,7 +56,7 @@ def create_user():
 
 
 # Retrieve user details by ID API endpoint
-@app.route('/get_user/<int:user_id>', methods=['GET'])
+@app.route('/api/users/v1/get_user/<int:user_id>', methods=['GET'])
 def get_user(user_id):
     conn, cursor = connect_db()
 
@@ -72,7 +85,7 @@ def get_user(user_id):
 
 
 # Update user details API endpoint
-@app.route('/update_user/<int:user_id>', methods=['PUT'])
+@app.route('/api/users/v1/update_user/<int:user_id>', methods=['PUT'])
 def update_user(user_id):
     conn, cursor = connect_db()
 
@@ -91,8 +104,8 @@ def update_user(user_id):
             SET name = ?, age = ?, phone_number = ?, education = ?, pincode = ?
             WHERE Unique_id = ?
         ''', (
-        user_data['name'], user_data['age'], user_data['phone_number'], user_data['education'], user_data['pincode'],
-        user_id))
+            user_data['name'], user_data['age'], user_data['phone_number'], user_data['education'], user_data['pincode'],
+            user_id))
 
         # Commit the transaction
         conn.commit()
@@ -106,7 +119,8 @@ def update_user(user_id):
 
 
 # Delete user API endpoint
-@app.route('/delete_user/<int:user_id>', methods=['DELETE'])
+# Delete user API endpoint
+@app.route('/api/v1/users/delete_user/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
     conn, cursor = connect_db()
 
@@ -119,6 +133,10 @@ def delete_user(user_id):
         # Delete user from the database
         cursor.execute("DELETE FROM Users WHERE Unique_id = ?", (user_id,))
 
+        # Also delete related entries in other tables
+        cursor.execute("DELETE FROM SCORES WHERE user_id = ?", (user_id,))
+        cursor.execute("DELETE FROM creditworthiness_score WHERE user_id = ?", (user_id,))
+
         # Commit the transaction
         conn.commit()
 
@@ -128,6 +146,7 @@ def delete_user(user_id):
     finally:
         # Close database connection
         conn.close()
+
 
 
 if __name__ == '__main__':

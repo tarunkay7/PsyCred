@@ -88,18 +88,74 @@
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               Select Language
             </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">English</a></li>
-              <li><a class="dropdown-item" href="#">Hindi</a></li>
-              <li><a class="dropdown-item" href="#">Marathi</a></li>
-              <li><a class="dropdown-item" href="#">Telugu</a></li>
-              <li><a class="dropdown-item" href="#">Tamil</a></li>
-              <li><a class="dropdown-item" href="#">Kannada</a></li>
-              <li><a class="dropdown-item" href="#">Malayalam</a></li>
+            <ul class="dropdown-menu languageSelect">
+              <li><a class="dropdown-item" href="#" data-lang="en">English</a></li>
+              <li><a class="dropdown-item" href="#" data-lang="hi">Hindi</a></li>
+              <li><a class="dropdown-item" href="#" data-lang="mr">Marathi</a></li>
+              <li><a class="dropdown-item" href="#" data-lang="te">Telugu</a></li>
+              <li><a class="dropdown-item" href="#" data-lang="ta">Tamil</a></li>
+              <li><a class="dropdown-item" href="#" data-lang="kn">Kannada</a></li>
+              <li><a class="dropdown-item" href="#" data-lang="ml">Malayalam</a></li>
             </ul>
-          </div>
+        </div>
 
-          <button type="button" class="btn btn-outline-success">Get Started</button>
+        <button type="button" class="btn btn-outline-success">Get Started</button>
     </div>
+
+    <!-- JavaScript -->
+<script>
+    // Language codes object
+    const languageCodes = {
+        "English": "en",
+        "Hindi": "hi",
+        "Marathi": "mr",
+        "Telugu": "te",
+        "Tamil": "ta",
+        "Kannada": "kn",
+        "Malayalam": "ml"
+    };
+
+    // Function to set a cookie
+    function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        const expires = "expires=" + date.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+
+    // Function to handle language selection
+    document.querySelectorAll('.languageSelect .dropdown-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const selectedLanguage = this.getAttribute('data-lang');
+            const languageName = languageCodes[selectedLanguage];
+            
+            // Create lang object with selected language
+            const lang = {
+                language: selectedLanguage,
+                code: languageName
+            };
+
+            // Make a POST request to the API endpoint
+            fetch('http://10.50.48.177:5000/api/v1/setlanguage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(lang)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Language set successfully:', selectedLanguage);
+                } else {
+                    console.error('Failed to set language:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+</script>
+
 </body>
 </html>

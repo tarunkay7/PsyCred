@@ -52,3 +52,174 @@ The `creditworthiness_score` table stores creditworthiness scores of users.
 - The `user_id` column in the `creditworthiness_score` table references the `Unique_id` column in the `Users` table.
 
 This schema is designed to store user information, including demographic details, psychometric test scores, and creditworthiness scores. Foreign key constraints ensure referential integrity between related tables.
+
+## API Documentation
+
+This document provides documentation for the user management APIs.
+
+### Create User
+
+- **URL**: `/api/users/v1/create_user`
+- **Method**: `POST`
+- **Description**: Creates a new user in the database.
+- **Request Body**:
+
+    ```json
+    {
+        "name": "John Doe",
+        "age": 30,
+        "phone_number": "1234567890",
+        "education": "Bachelor's Degree",
+        "pincode": "12345"
+    }
+    ```
+
+- **Response**:
+
+    - **Success (201)**:
+
+        ```json
+        {
+            "message": "User created successfully"
+        }
+        ```
+
+    - **Error (400)**:
+
+        ```json
+        {
+            "error": "Incomplete user data"
+        }
+        ```
+
+        OR
+
+        ```json
+        {
+            "error": "Invalid request body"
+        }
+        ```
+
+    - **Error (500)**:
+
+        ```json
+        {
+            "error": "Internal Server Error"
+        }
+        ```
+
+### Get User
+
+- **URL**: `/api/users/v1/get_user/<int:user_id>`
+- **Method**: `GET`
+- **Description**: Retrieves user details by ID from the database.
+- **Parameters**:
+    - `user_id`: Unique identifier of the user.
+- **Response**:
+
+    - **Success (200)**:
+
+        ```json
+        {
+            "Unique_id": 1,
+            "name": "John Doe",
+            "age": 30,
+            "phone_number": "1234567890",
+            "education": "Bachelor's Degree",
+            "pincode": "12345"
+        }
+        ```
+
+    - **Error (404)**:
+
+        ```json
+        {
+            "error": "User not found"
+        }
+        ```
+
+    - **Error (500)**:
+
+        ```json
+        {
+            "error": "Internal Server Error"
+        }
+        ```
+
+### Update User
+
+- **URL**: `/api/users/v1/update_user/<int:user_id>`
+- **Method**: `PUT`
+- **Description**: Updates user details by ID in the database.
+- **Parameters**:
+    - `user_id`: Unique identifier of the user.
+- **Request Body**:
+
+    ```json
+    {
+        "name": "John Doe",
+        "age": 35,
+        "phone_number": "9876543210",
+        "education": "Master's Degree",
+        "pincode": "54321"
+    }
+    ```
+
+- **Response**:
+
+    - **Success (200)**:
+
+        ```json
+        {
+            "message": "User updated successfully"
+        }
+        ```
+
+    - **Error (404)**:
+
+        ```json
+        {
+            "error": "User not found"
+        }
+        ```
+
+    - **Error (500)**:
+
+        ```json
+        {
+            "error": "Internal Server Error"
+        }
+        ```
+
+### Delete User
+
+- **URL**: `/api/v1/users/delete_user/<int:user_id>`
+- **Method**: `DELETE`
+- **Description**: Deletes a user by ID from the database.
+- **Parameters**:
+    - `user_id`: Unique identifier of the user.
+- **Response**:
+
+    - **Success (200)**:
+
+        ```json
+        {
+            "message": "User deleted successfully"
+        }
+        ```
+
+    - **Error (404)**:
+
+        ```json
+        {
+            "error": "User not found"
+        }
+        ```
+
+    - **Error (500)**:
+
+        ```json
+        {
+            "error": "Internal Server Error"
+        }
+        ```
