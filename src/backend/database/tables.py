@@ -13,6 +13,7 @@ def create_users_table():
         name VARCHAR,
         age INTEGER CHECK (age > 18),
         phone_number TEXT UNIQUE,
+        education TEXT,
         pincode INTEGER
     );
     '''
@@ -103,3 +104,21 @@ def create_district_info_table():
 
     conn.commit()
     conn.close()
+
+
+def delete_table():
+    conn = sqlite3.connect('psy.db')
+    cursor = conn.cursor()
+    create_table_query = '''DROP TABLE Users
+           '''
+    try:
+        # Execute the SQL statement to create the table
+        cursor.execute(create_table_query)
+        print("Table  deleted successfully.")
+    except sqlite3.Error as e:
+        print("Error deleting table:", e)
+
+    conn.commit()
+    conn.close()
+
+create_users_table()
