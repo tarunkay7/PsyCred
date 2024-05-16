@@ -223,3 +223,72 @@ This document provides documentation for the user management APIs.
             "error": "Internal Server Error"
         }
         ```
+Sure, here's the documentation for the provided code in Markdown format:
+
+## Code Documentation
+
+This document provides documentation for the provided Python code.
+
+### 1. Function: `insert_train_data(age, education, pincode)`
+
+This function inserts data into the database and automatically computes metrics based on the pincode.
+
+- **Parameters**:
+  - `age`: Age of the individual.
+  - `education`: Education level of the individual.
+  - `pincode`: Pincode of the area where the individual resides.
+
+### 2. Function: `generate_train_data(n)`
+
+This function generates training data by calling `insert_train_data()`.
+
+- **Parameters**:
+  - `n`: Number of data points to generate.
+
+### 3. Function: `populate_district_info(conn)`
+
+This function populates the `DistrictInfo` table by scraping data from a website.
+
+- **Parameters**:
+  - `conn`: SQLite database connection object.
+
+### 4. Function: `create_users_table()`
+
+This function creates the `Users` table in the database.
+
+### 5. Function: `create_scores_table()`
+
+This function creates the `Scores` table in the database.
+
+### 6. Function: `create_creditworthiness_score_table()`
+
+This function creates the `creditworthiness_score` table in the database.
+
+### 7. Function: `create_district_info_table()`
+
+This function creates the `DistrictInfo` table in the database and populates it with data.
+
+### 8. Function: `create_train_table()`
+
+This function creates the `TrainData` table in the database.
+
+### 9. Function: `drop_table()`
+
+This function drops the `Users` table from the database.
+
+### 10. Function: `formula(age, edu, growth, literacy)`
+
+This function computes a demographic score based on age, education level, district growth, and literacy rate.
+
+- **Parameters**:
+  - `age`: Age of the individual.
+  - `edu`: Education level of the individual.
+  - `growth`: Growth rate of the district.
+  - `literacy`: Literacy rate of the district.
+
+### 11. Function: `check_formula(formula)`
+
+This function checks the `formula()` function by applying it to the data in the `TrainData` table and printing the results.
+
+- **Parameters**:
+  - `formula`: The demographic score calculation formula.
