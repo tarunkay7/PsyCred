@@ -2,6 +2,7 @@ import requests
 from flask import Flask, request, jsonify
 import sqlite3
 import random
+import os
 
 app = Flask(__name__)
 
@@ -96,7 +97,6 @@ def gen_questions():
         'Content-Type': 'application/json',
         'x-hl-api-key': 'OWQ0MmI1YTdjOTQxNDUyNGFmODBmMDBhZmM5ZGMwYzU='
     }
-
     data = {
         "promptId": "31764ccc-cff7-4590-8898-e87b2aa905dd",
         "promptVersionId": "d70a9468-f798-4d00-af57-c6523250501e",
@@ -124,8 +124,7 @@ def gen_questions():
         }
     }
 
-    response = requests.post(url, headers=headers, json=data)
-
+    response = requests.post(url, headers=headers, json=data)    
     if response.ok:
         return jsonify(response.json()["choices"][0]["message"]["content"]), 200
     else:
@@ -166,6 +165,61 @@ def rate_answers():
         return jsonify(response.json()["choices"][0]["message"]["content"]), 200
     else:
         return jsonify({'error': 'Failed to send prompt'}), response.status_code
+
+@app.route('/score_mcq', methods=['GET'])
+def score_mcq():
+    """
+    Sample API CALL
+
+    resp = requests.get('http://127.0.0.1:5001/score_mcq', json={'Q1': "A",'A1': "A",'Q2': "A",'A2': "A",'Q3': "A",'A3': "A",'Q4': "A",'A4': "A",'Q5': "A",'A5': "A",'Q6': "A", 'A6': "A",'Q7': "A",'A7': "A",'Q8': "A",'A8': "A",'Q9': "A",'A9': "A",'Q10': "A",'A10': "A",})
+    data = json.loads(resp.json())
+    print(data)
+    """
+
+    json = request.get_json()
+    url = 'https://api.hyperleap.ai/prompts'
+    headers = {
+        'Content-Type': 'application/json',
+        'x-hl-api-key': 'OWQ0MmI1YTdjOTQxNDUyNGFmODBmMDBhZmM5ZGMwYzU='
+    }
+
+    data = {
+        "promptId": "f8b3afcb-e1ef-4801-b4a5-91b54bf7d7e9",
+        "promptVersionId": "1aceb2e2-43f8-434a-a248-af39030d60e0",
+        "replacements": {
+            "Q1": json['Q1'],
+            "A1": json['A1'],
+            "Q2": json['Q2'],
+            "A2": json['A2'],
+            "Q3": json['Q3'],
+            "A3": json['A3'],
+            "Q4": json['Q4'],
+            "A4": json['A4'],
+            "Q5": json['Q5'],
+            "A5": json['A5'],
+            "Q6": json['Q6'],
+            "A6": json['A6'],
+            "Q7": json['Q7'],
+            "A7": json['A7'],
+            "Q8": json['Q8'],
+            "A8": json['A8'],
+            "Q9": json['Q9'],
+            "A9": json['A9'],
+            "Q10":json['Q10'],
+            "A10":json['A10']
+        }
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+
+    print(response.json())
+
+    if response.ok:
+        return jsonify(response.json()["choices"][0]["message"]["content"]), 200
+    else:
+        return jsonify({'error': 'Failed to send prompt'}), response.status_code
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
