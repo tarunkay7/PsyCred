@@ -13,11 +13,12 @@
     <style>
         body {
             background-color: #f2f2f2;
+            padding-top: 100px;
         }
 
         /* Navbar styles */
         .navbar-nav .nav-link:hover {
-            color: #DADD50 !important;
+            color: #01BF9B !important;
         }
 
         .navbar-brand {
@@ -38,8 +39,12 @@
             padding-left: 45% !important;
         }
 
-        .dropdown-menu{
+        .dropdown-menu .nav-dropdown{
             left: 280px !important;
+        }
+
+        .page-left {
+            padding-left: 100px ;
         }
         
     </style>
@@ -70,8 +75,8 @@
                             Profile
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" style="color: black;">View Profile</a></li>
-                            <li><a class="dropdown-item" href="#" style="color: black;">Edit Profile</a></li>
+                            <li><a class="dropdown-item nav-dropdown" href="#" style="color: black;">View Profile</a></li>
+                            <li><a class="dropdown-item nav-dropdown" href="#" style="color: black;">Edit Profile</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -79,7 +84,38 @@
         </div>
     </nav>    
 
-    <!-- JavaScript Linking -->
-    <script src="start.js"></script>
+    <!-- Body -->
+    <div class="body page-left">
+        <h1 class="display-3">Hey there!</h1>
+        <p>Please select your language to get started</p>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Select Language
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">English</a></li>
+              <li><a class="dropdown-item" href="#">Hindi</a></li>
+              <li><a class="dropdown-item" href="#">Marathi</a></li>
+              <li><a class="dropdown-item" href="#">Telugu</a></li>
+              <li><a class="dropdown-item" href="#">Tamil</a></li>
+              <li><a class="dropdown-item" href="#">Kannada</a></li>
+              <li><a class="dropdown-item" href="#">Malayalam</a></li>
+            </ul>
+          </div>
+
+          <button type="button" class="btn btn-outline-success">Get Started</button>
+    </div>
+
+
+    <!-- JavaScript -->
+    <script>
+        const hamburgerMenu = document.querySelector('.hamburger-menu');
+        const navbarLinks = document.querySelector('.navbar-links');
+
+        hamburgerMenu.addEventListener('click', () => {
+            navbarLinks.classList.toggle('active');
+        });
+    </script>
 </body>
 </html>
