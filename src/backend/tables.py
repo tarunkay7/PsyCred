@@ -279,7 +279,7 @@ def check_formula(formula):
     for row in table:
         (age, edu, dist, pop, growth, sex_ratio, literacy) = row
         score = formula(age, edu, pop, growth, sex_ratio, literacy)
-        print(row, score)
+        print(row, f"{score:.2f}")
     conn.close()
 
 check_formula(formula)
