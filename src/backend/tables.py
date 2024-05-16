@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 import requests
 import Levenshtein
 import sqlite3
+import random
+import numpy as np
 
 def insert_train_data(age, education, pincode):
     """
@@ -44,6 +46,40 @@ def insert_train_data(age, education, pincode):
     cursor.close()
     conn.commit()
     conn.close()
+
+def generate_train_data(n):
+    def gen_age():
+        rand = 0
+        while rand < 18 or rand > 92:
+            rand = int(np.random.normal(38, 10))
+        return rand
+    def gen_edu():
+        edu = ['H', 'B', 'M', 'P']
+        return random.choice(edu)
+    def is_valid_pin(pin):
+        POSTAL_URL = 'https://api.postalpincode.in/pincode'
+        response = requests.get(f"{POSTAL_URL}/{pin}")
+        if (response.json()[0]['Status'] == 'Success'):
+            return True
+        else:
+            print('Failed Pin', pin, response.json())
+            return False
+        
+    def gen_pin():
+        pin = "000000"
+        while not is_valid_pin(pin):
+            pin_first3 =  f"{random.randint(100, 900):03}"
+            nums = [f"{num:03}" for num in range(901)]
+            weights = [1 / (i + 1) for i in range(901)]
+            pin_last3 = random.choices(nums, weights=weights, k=1)[0]
+            pin = pin_first3 + pin_last3 
+        return pin
+    
+    for i in range(n):
+        print('Inserting', i)
+        insert_train_data(gen_age(), gen_edu(), gen_pin())
+
+generate_train_data(100)
 
 def populate_district_info(conn):
     CENSUS_URL = 'https://www.census2011.co.in/district.php'
@@ -221,6 +257,3 @@ def drop_table():
 
     conn.commit()
     conn.close()
-
-
-create_users_table()
