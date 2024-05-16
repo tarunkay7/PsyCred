@@ -223,7 +223,71 @@ This document provides documentation for the user management APIs.
             "error": "Internal Server Error"
         }
         ```
-Sure, here's the documentation for the provided code in Markdown format:
+        Below is the documentation for the provided API endpoint in Markdown format:
+
+---
+
+### Verify Password
+
+- **URL:** `/api/users/v1/verify_password`
+- **Method:** `POST`
+- **Description:** Verifies the user's phone number and generates an OTP (One-Time Password) for authentication.
+- **Request Body:**
+  - Content-Type: `application/json`
+  - Parameters:
+    - `phone_number`: Phone number of the user.
+  - Example:
+    ```json
+    {
+        "phone_number": "1234567890"
+    }
+    ```
+- **Responses:**
+  - **Success (200):**
+    - Description: OTP generated successfully.
+    - Body:
+      ```json
+      {
+          "message": "OTP generated successfully",
+          "otp": "<generated_otp>"
+      }
+      ```
+    - Example:
+      ```json
+      {
+          "message": "OTP generated successfully",
+          "otp": "123456"
+      }
+      ```
+  - **Error (400):**
+    - Description: Phone number is missing in the request.
+    - Body:
+      ```json
+      {
+          "error": "Phone number is required"
+      }
+      ```
+  - **Error (404):**
+    - Description: User not found in the database.
+    - Body:
+      ```json
+      {
+          "error": "User not found"
+      }
+      ```
+  - **Error (500):**
+    - Description: Internal server error occurred.
+    - Body:
+      ```json
+      {
+          "error": "<error_message>"
+      }
+      ```
+- **Notes:**
+  - The API generates a random 6-digit OTP for demonstration purposes.
+  - The generated OTP is printed in the console for demonstration purposes. In a real application, it should be sent to the user's phone number via SMS or another secure method.
+
+---
 
 ## Demographic Score Calculation
 
@@ -290,3 +354,158 @@ This function checks the `formula()` function by applying it to the data in the 
 
 - **Parameters**:
   - `formula`: The demographic score calculation formula.
+
+---
+
+## API Documentation
+
+### Generate OTP
+
+- **URL:** `/api/users/v1/generate_otp`
+- **Method:** `GET`
+- **Description:** Generates a one-time password (OTP) for user authentication.
+- **Responses:**
+  - **Success (200):**
+    - Description: OTP generated successfully.
+    - Body:
+      ```json
+      {
+          "otp": "<generated_otp>"
+      }
+      ```
+    - Example:
+      ```json
+      {
+          "otp": "123456"
+      }
+      ```
+- **Notes:**
+  - The generated OTP is stored globally for verification purposes.
+
+### Verify OTP
+
+- **URL:** `/api/users/v1/verify_otp`
+- **Method:** `POST`
+- **Description:** Verifies the provided OTP.
+- **Request Body:**
+  - Content-Type: `application/json`
+  - Parameters:
+    - `otp`: One-time password for verification.
+  - Example:
+    ```json
+    {
+        "otp": "123456"
+    }
+    ```
+- **Responses:**
+  - **Success (200):**
+    - Description: OTP verification successful.
+    - Body:
+      ```json
+      {
+          "message": "OTP verification successful"
+      }
+      ```
+  - **Error (400):**
+    - Description: OTP is missing in the request.
+    - Body:
+      ```json
+      {
+          "error": "OTP is required"
+      }
+      ```
+
+### Hyperleap Persona
+
+- **URL:** `/api/hyperleap/v1/persona`
+- **Method:** `POST`
+- **Description:** Retrieves persona information using Hyperleap API.
+- **Request Body:**
+  - Content-Type: `application/json`
+  - Parameters:
+    - `personaId`: ID of the persona.
+    - `questions`: List of questions related to the persona.
+  - Example:
+    ```json
+    {
+        "personaId": "123",
+        "questions": ["What is your name?", "How old are you?"]
+    }
+    ```
+- **Responses:**
+  - **Success (200):**
+    - Description: Persona information retrieved successfully.
+    - Body: Response from the Hyperleap API.
+  - **Error (500):**
+    - Description: Internal server error occurred.
+    - Body:
+      ```json
+      {
+          "error": "<error_message>"
+      }
+      ```
+
+### Generate Questions
+
+- **URL:** `/gen_questions`
+- **Method:** `GET`
+- **Description:** Generates questions using Hyperleap API based on provided answers.
+- **Request Body:**
+  - Content-Type: `application/json`
+  - Parameters:
+    - Questions and corresponding answers.
+  - Example:
+    ```json
+    {
+        "Q1": "Question 1",
+        "A1": "Answer 1",
+        ...
+        "Q10": "Question 10",
+        "A10": "Answer 10"
+    }
+    ```
+- **Responses:**
+  - **Success (200):**
+    - Description: Questions generated successfully.
+    - Body: Generated questions.
+  - **Error (status code):**
+    - Description: Failed to generate questions.
+    - Body:
+      ```json
+      {
+          "error": "Failed to send prompt"
+      }
+      ```
+
+### Rate Answers
+
+- **URL:** `/rate_answers`
+- **Method:** `GET`
+- **Description:** Rates provided answers using Hyperleap API.
+- **Request Body:**
+  - Content-Type: `application/json`
+  - Parameters:
+    - Questions and corresponding answers.
+  - Example:
+    ```json
+    {
+        "Q1": "Question 1",
+        "A1": "Answer 1",
+        "Q2": "Question 2",
+        "A2": "Answer 2"
+    }
+    ```
+- **Responses:**
+  - **Success (200):**
+    - Description: Answers rated successfully.
+    - Body: Rated answers.
+  - **Error (status code):**
+    - Description: Failed to rate answers.
+    - Body:
+      ```json
+      {
+          "error": "Failed to send prompt"
+      }
+      ```
+
+---
