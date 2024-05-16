@@ -53,11 +53,66 @@ def verify_otp():
 @app.route('/api/hyperleap/v1/persona', methods=['POST'])
 def hyperleap_persona():
     # Extract JSON data from the request
+    pass
 
 
+# Update user details API endpoint
+@app.route('/update_user/<int:user_id>', methods=['PUT'])
+def update_user(user_id):
+    conn, cursor = connect_db()
+
+    # Parse JSON data from request
+    user_data = request.json
+
+    try:
+        # Check if the user exists
+        cursor.execute("SELECT * FROM Users WHERE Unique_id = ?", (user_id,))
+        if cursor.fetchone() is None:
+            return jsonify({'error': 'User not found'}), 404
+
+        # Update user data in the database
+        cursor.execute('''
+            UPDATE Users
+            SET name = ?, age = ?, phone_number = ?, education = ?, pincode = ?
+            WHERE Unique_id = ?
+        ''', (
+        user_data['name'], user_data['age'], user_data['phone_number'], user_data['education'], user_data['pincode'],
+        user_id))
+
+        # Commit the transaction
+        conn.commit()
+
+        return jsonify({'message': 'User updated successfully'}), 200
+    except sqlite3.Error as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        # Close database connection
+        conn.close()
 
 
+# Delete user API endpoint
+@app.route('/delete_user/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    conn, cursor = connect_db()
 
+    try:
+        # Check if the user exists
+        cursor.execute("SELECT * FROM Users WHERE Unique_id = ?", (user_id,))
+        if cursor.fetchone() is None:
+            return jsonify({'error': 'User not found'}), 404
+
+        # Delete user from the database
+        cursor.execute("DELETE FROM Users WHERE Unique_id = ?", (user_id,))
+
+        # Commit the transaction
+        conn.commit()
+
+        return jsonify({'message': 'User deleted successfully'}), 200
+    except sqlite3.Error as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        # Close database connection
+        conn.close()
 
 
 
@@ -1916,7 +1971,7 @@ def delete_user(user_id):
     finally:
         # Close database connection
         conn.close()
-        
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
 
