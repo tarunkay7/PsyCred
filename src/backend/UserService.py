@@ -11,7 +11,7 @@ def connect_db():
 
 
 # Create user API endpoint
-@app.route('/create_user', methods=['POST'])
+@app.route('api/users/v1/create_user', methods=['POST'])
 def create_user():
     conn, cursor = connect_db()
 
@@ -43,7 +43,7 @@ def create_user():
 
 
 # Retrieve user details by ID API endpoint
-@app.route('/get_user/<int:user_id>', methods=['GET'])
+@app.route('api/users/v1/get_user/<int:user_id>', methods=['GET'])
 def get_user(user_id):
     conn, cursor = connect_db()
 
@@ -72,7 +72,7 @@ def get_user(user_id):
 
 
 # Update user details API endpoint
-@app.route('/update_user/<int:user_id>', methods=['PUT'])
+@app.route('api/users/v1update_user/<int:user_id>', methods=['PUT'])
 def update_user(user_id):
     conn, cursor = connect_db()
 
@@ -106,7 +106,7 @@ def update_user(user_id):
 
 
 # Delete user API endpoint
-@app.route('/delete_user/<int:user_id>', methods=['DELETE'])
+@app.route('api/v1/users/delete_user/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
     conn, cursor = connect_db()
 
@@ -129,14 +129,6 @@ def delete_user(user_id):
         # Close database connection
         conn.close()
 
-@app.route('/api/v1/setlanguage', methods=['POST'])
-def set_language():
-    # Assuming JSON data is received in the request body
-    lang_data = request.json
-
-    print(lang_data)
-
-    return 'Language set successfully', 200
 
 
 
