@@ -13,21 +13,16 @@
     <style>
         body {
             background-color: #f2f2f2;
+            padding-top: 100px;
         }
 
         /* Navbar styles */
         .navbar-nav .nav-link:hover {
-            color: #DADD50 !important;
-        }
-
-        .navbar-brand {
-            padding-left: 90%;
+            color: #01BF9B !important;
         }
 
         .navbar-nav {
-            width: 100%;
             text-align: center;
-            padding-left: 35%;
         }
 
         .navbar-nav .nav-item {
@@ -35,22 +30,27 @@
         }
 
         .dropdown {
-            padding-left: 45% !important;
+            margin-left: auto;
         }
 
-        .dropdown-menu{
+        .dropdown-menu .nav-dropdown {
             left: 280px !important;
         }
-        
+
+        .page-left {
+            padding-left: 60px;
+        }
+
+        .btn {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar fixed-top navbar-expand-lg" style="background-color: #f2f2f2;">
         <div class="container-fluid">
-            <div class="d-flex align-items-center">
-                <a class="navbar-brand" href="#" style="color: #2c2b29;">PsyCred</a>
-            </div>
+            <a class="navbar-brand" href="#" style="color: #2c2b29;">PsyCred</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -70,8 +70,8 @@
                             Profile
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" style="color: black;">View Profile</a></li>
-                            <li><a class="dropdown-item" href="#" style="color: black;">Edit Profile</a></li>
+                            <li><a class="dropdown-item nav-dropdown" href="#" style="color: black;">View Profile</a></li>
+                            <li><a class="dropdown-item nav-dropdown" href="#" style="color: black;">Edit Profile</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -79,7 +79,27 @@
         </div>
     </nav>    
 
-    <!-- JavaScript Linking -->
-    <script src="start.js"></script>
+    <!-- Body -->
+    <div class="body page-left">
+        <h1 class="display-3">Hey there!</h1>
+        <p>Please select your language to get started</p>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Select Language
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">English</a></li>
+              <li><a class="dropdown-item" href="#">Hindi</a></li>
+              <li><a class="dropdown-item" href="#">Marathi</a></li>
+              <li><a class="dropdown-item" href="#">Telugu</a></li>
+              <li><a class="dropdown-item" href="#">Tamil</a></li>
+              <li><a class="dropdown-item" href="#">Kannada</a></li>
+              <li><a class="dropdown-item" href="#">Malayalam</a></li>
+            </ul>
+          </div>
+
+          <button type="button" class="btn btn-outline-success">Get Started</button>
+    </div>
 </body>
 </html>

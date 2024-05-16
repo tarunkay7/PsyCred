@@ -46,6 +46,7 @@ def create_users_table():
         name VARCHAR,
         age INTEGER CHECK (age > 18),
         phone_number TEXT UNIQUE,
+        education TEXT,
         pincode INTEGER
     );
     '''
