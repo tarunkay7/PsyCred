@@ -357,8 +357,6 @@ This function checks the `formula()` function by applying it to the data in the 
 
 ---
 
-## API Documentation
-
 ### Generate OTP
 
 - **URL:** `/api/users/v1/generate_otp`
