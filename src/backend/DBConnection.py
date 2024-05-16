@@ -2,7 +2,7 @@ import sqlite3
 
 def create_users_table():
     # Connect to the SQLite database
-    conn = sqlite3.connect('psy.db')
+    conn = sqlite3.connect('PsyCred\src\backend\db')
     cursor = conn.cursor()
 
     # Define the SQL statement to create the Users table

@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import Levenshtein
 
 class User:
     """
@@ -36,18 +37,19 @@ class User:
             for row in rows:
                 row_data = row.findAll('td')
                 row_district = row_data[1].text
-                if row_district == district:        
-                    row_population = row_data[3].text
-                    row_growth = row_data[4].text
-                    row_literacy = row_data[6].text 
+                if Levenshtein.distance(row_district, district, weights=(1, 1, 5)) < max(len(row_district), len(district)) // 2:        
+                    row_population = int(row_data[3].text.replace(',', ''))
+                    row_growth = float(row_data[4].text.replace(' %', ''))
+                    row_literacy = float(row_data[6].text) 
                     flag = True
                     break
             if flag == True:
                 break
-            page_number += 1
+            
+            page_number += 1    
         
         if flag == True:
-            print(f"{district=}, {row_population=}, {row_growth=}, {row_literacy=}")
+            print(f"{row_district=}, {row_population=}, {row_growth=}, {row_literacy=}")
         else:
             print('District Not Found')
 
