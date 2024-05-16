@@ -1,6 +1,4 @@
-import sqlite3
-from bs4 import BeautifulSoup
-import requests
+
 
 from bs4 import BeautifulSoup
 import requests
@@ -211,3 +209,21 @@ def create_train_table():
         
     conn.commit()
     conn.close()
+
+def drop_table():
+    conn = sqlite3.connect('psy.db')
+    cursor = conn.cursor()
+    create_table_query = '''
+    DROP TABLE Users
+           '''
+    try:
+        cursor.execute(create_table_query)
+        print("Table deleted successfully.")
+    except sqlite3.Error as e:
+        print("Error deleting table:", e)
+
+    conn.commit()
+    conn.close()
+
+
+create_users_table()
