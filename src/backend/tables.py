@@ -45,9 +45,6 @@ def insert_train_data(age, education, pincode):
     conn.commit()
     conn.close()
 
-insert_train_data(19, 'High School', 500075)
-
-
 def populate_district_info(conn):
     CENSUS_URL = 'https://www.census2011.co.in/district.php'
     page_number = 1
