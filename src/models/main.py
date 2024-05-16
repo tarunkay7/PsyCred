@@ -45,7 +45,7 @@ class User:
                     break
             if flag == True:
                 break
-            
+
             page_number += 1    
         
         if flag == True:
@@ -63,4 +63,5 @@ class Database:
 user = User(10, "H", 500049)
 user.fetch_district()
 user.fetch_district_literacy()
+
 
