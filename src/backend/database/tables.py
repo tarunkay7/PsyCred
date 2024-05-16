@@ -1,4 +1,37 @@
 import sqlite3
+from bs4 import BeautifulSoup
+import requests
+    
+def populate_district_info(conn):
+    CENSUS_URL = 'https://www.census2011.co.in/district.php'
+    page_number = 1
+    rows = [0]
+    cursor = conn.cursor()
+
+    while len(rows) != 0:
+        page = requests.get(f"{CENSUS_URL}?page={page_number}")
+        soup = BeautifulSoup(page.content, "html.parser")
+        rows = soup.find('table').findAll('tr')[1:]    
+        for row in rows:
+            row_data = row.findAll('td')
+
+            row_district = row_data[1].text
+            row_population = int(row_data[3].text.replace(',', ''))
+            row_growth = float(row_data[4].text.replace(' %', ''))
+            row_literacy = float(row_data[6].text) 
+
+            query = f'''
+                INSERT INTO DistrictInfo
+                (district, population, growth, sex_ratio)
+                VALUES
+                ('{row_district}', {row_population}, {row_growth}, {row_literacy})
+            '''
+
+            cursor.execute(query)
+
+        page_number += 1    
+
+    cursor.close()
 
 
 def create_users_table():
@@ -100,6 +133,10 @@ def create_district_info_table():
         print("Table  created successfully.")
     except sqlite3.Error as e:
         print("Error creating table:", e)
-
+    
+    populate_district_info(conn)
+    
     conn.commit()
     conn.close()
+
+create_district_info_table()
