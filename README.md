@@ -225,9 +225,7 @@ This document provides documentation for the user management APIs.
         ```
 Sure, here's the documentation for the provided code in Markdown format:
 
-## Code Documentation
-
-This document provides documentation for the provided Python code.
+## Demographic Score Calculation
 
 ### 1. Function: `insert_train_data(age, education, pincode)`
 
