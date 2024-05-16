@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PsyCred: Onboarding</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f2f2f2;
+            padding-top: 100px;
+        }
+
+        /* Navbar styles */
+        .navbar-nav .nav-link:hover {
+            color: #01BF9B !important;
+        }
+
+        .navbar-nav {
+            text-align: center;
+        }
+
+        .navbar-nav .nav-item {
+            padding: 0 10px;
+        }
+
+        .dropdown {
+            margin-left: auto;
+        }
+
+        .dropdown-menu .nav-dropdown {
+            left: 280px !important;
+        }
+
+        .page-left {
+            padding-left: 60px;
+        }
+
+        .btn {
+            margin-top: 20px;
+        }
+
+        /* textboxes */
+        .form-control {
+            width: 300px; /* Set the width of textboxes */
+            max-width: 100%; /* Ensure textboxes do not overflow container */
+        }
+
+        .form-label {
+            font-weight: bold; /* Make labels bold */
+
+        }
+
+        .card {
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar fixed-top navbar-expand-lg" style="background-color: #ffffff; border-bottom: 1px solid #dddddd; padding: 10px 0;">
+    <div class="container-fluid">
+        <!-- Brand/logo -->
+        <a class="navbar-brand" href="#">
+            <img src="C:\Users\gayat\Desktop\CreditIQ Crew - Financial Inclusion\PsyCred\src\frontend\src\imgs\logo.png" alt="PsyCred Logo" style="height: 40px; width: auto;">
+        </a>
+
+        <!-- Toggler/collapsible Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#" style="color: #333333;">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="signup.html" style="color: #333333;">Sign up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="login.html" style="color: #333333;">Login</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #333333;">
+                        Profile
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item nav-dropdown" href="#" style="color: #333333;">View Profile</a></li>
+                        <li><a class="dropdown-item nav-dropdown" href="#" style="color: #333333;">Edit Profile</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    
+    <!-- Body -->
+    <div class="body page-left">
+        <h1 class="display-3">Get Started</h1>
+
+        <div class="card ">
+            <div class="text-bg-warning card-body">
+                Interest inventories: These assess an individual's preferences, likes, and dislikes regarding various activities, careers, or subjects.
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary">Sign up</button>
+
+        
+
+        <button type="button" class="btn btn-primary">Login</button>
+
+
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+
+        // Function to serialize form data to JSON
+        function serializeForm(form) {
+            const formData = new FormData(form);
+            const data = {
+                phone_number: formData.get('phone'),
+                otp: parseInt(formData.get('otp'))
+            };
+            return JSON.stringify(data);
+        }
+
+        // Add event listener for form submission
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            // Check if form is valid
+            if (!this.checkValidity()) {
+                event.preventDefault(); // Prevent form submission if not valid
+                event.stopPropagation(); // Stop event propagation
+                return;
+            }
+
+            // Serialize form data to JSON
+            const jsonData = serializeForm(this);
+
+            // Send JSON data to API endpoint
+            fetch('http://10.50.48.177:5000/api/users/v1/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data); // Log response from the server
+                // Optionally, redirect user to another page or show a success message
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+                // Optionally, display an error message to the user
+            });
+
+            // Prevent default form submission
+            event.preventDefault();
+        });
+
+        // Add event listener for input blur to validate on click out of the textbox
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('blur', function() {
+                if (input.checkValidity()) {
+                    input.classList.remove('is-invalid');
+                } else {
+                    input.classList.add('is-invalid');
+                }
+            });
+        });
+
+        // Function to send OTP
+        document.getElementById('sendOTPBtn').addEventListener('click', function() {
+            const phoneNumber = document.getElementById('phone').value;
+            // Send phoneNumber to API endpoint to request OTP
+            // This functionality needs to be implemented on the backend
+            console.log('OTP sent to', phoneNumber);
+            // Optionally, display a message to the user that OTP has been sent
+        });
+
+    </script>
+
+</body>
+</html>
