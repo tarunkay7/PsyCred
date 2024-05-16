@@ -1,5 +1,6 @@
 import sqlite3
 
+
 def create_users_table():
     # Connect to the SQLite database
     conn = sqlite3.connect('db/psy.db')
@@ -27,6 +28,7 @@ def create_users_table():
     conn.commit()
     conn.close()
 
+
 def create_scores_table():
     # Connect to the SQLite database
     conn = sqlite3.connect('db/psy.db')
@@ -53,6 +55,7 @@ def create_scores_table():
     conn.commit()
     conn.close()
 
+
 def create_creditworthiness_score_table():
     # Connect to the SQLite database
     conn = sqlite3.connect('db/psy.db')
@@ -78,11 +81,28 @@ def create_creditworthiness_score_table():
     conn.commit()
     conn.close()
 
-# Call the functions to create the tables
 
-create_scores_table()
-create_creditworthiness_score_table()
-create_users_table()
+# Call the functions to create the tables
 
 # Table DistrictInfo
 # Columns: (district VC, population INT, growth DEC, sex_ratio INT, literacy_rate DEC)
+
+conn = sqlite3.connect('db/psy.db')
+cursor = conn.cursor()
+create_table_query = '''
+    CREATE TABLE IF NOT EXISTS DistrictInfo (
+        district TEXT,
+        population INTEGER,
+        growth DECIMAL,
+        sex_ratio INTEGER
+        literacy_rate DECIMAL
+    );
+    '''
+try:
+    # Execute the SQL statement to create the table
+    cursor.execute(create_table_query)
+    print("Table  created successfully.")
+except sqlite3.Error as e:
+    print("Error creating table:", e)
+conn.commit()
+conn.close()
