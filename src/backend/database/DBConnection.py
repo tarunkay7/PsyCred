@@ -3,7 +3,7 @@ import sqlite3
 
 def create_users_table():
     # Connect to the SQLite database
-    conn = sqlite3.connect('db/psy.db')
+    conn = sqlite3.connect('psy.db')
     cursor = conn.cursor()
 
     # Define the SQL statement to create the Users table
@@ -58,7 +58,7 @@ def create_scores_table():
 
 def create_creditworthiness_score_table():
     # Connect to the SQLite database
-    conn = sqlite3.connect('db/psy.db')
+    conn = sqlite3.connect('psy.db')
     cursor = conn.cursor()
 
     # Define the SQL statement to create the creditworthiness_score table
@@ -83,7 +83,7 @@ def create_creditworthiness_score_table():
 
 
 def create_district_info_table():
-    conn = sqlite3.connect('db/psy.db')
+    conn = sqlite3.connect('psy.db')
     cursor = conn.cursor()
     create_table_query = '''
         CREATE TABLE IF NOT EXISTS DistrictInfo (
