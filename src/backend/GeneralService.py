@@ -1,6 +1,5 @@
 import requests
 from flask import Flask, request, jsonify
-from twilio.rest import Client
 import sqlite3
 import random
 
@@ -80,53 +79,99 @@ def hyperleap_persona():
 
 
 
-@app.route('/send_prompt', methods=['GET'])
-def send_prompt():
-    # Define the URL and headers
+@app.route('/gen_questions', methods=['GET'])
+def gen_questions():
+    """
+    Sample API CALL
+
+    resp = requests.get('http://127.0.0.1:5001/gen_questions', json={'Q1': "A",'A1': "A",'Q2': "A",'A2': "A",'Q3': "A",'A3': "A",'Q4': "A",'A4': "A",'Q5': "A",'A5': "A",
+    'Q6': "A", 'A6': "A",'Q7': "A",'A7': "A"'Q8': "A",'A8': "A"'Q9': "A",'A9': "A"'Q10': "A",'A10': "A",})
+    data = json.loads(resp.json())
+    print(data)
+    """
+
+    json = request.get_json()
     url = 'https://api.hyperleap.ai/prompts'
     headers = {
         'Content-Type': 'application/json',
-        'x-hl-api-key': 'OWQ0MmI1YTdjOTQxNDUyNGFmODBmMDBhZmM5ZGMwYzU='  # Replace with your API key
+        'x-hl-api-key': 'OWQ0MmI1YTdjOTQxNDUyNGFmODBmMDBhZmM5ZGMwYzU='
     }
 
-    # Define the JSON data
     data = {
         "promptId": "31764ccc-cff7-4590-8898-e87b2aa905dd",
         "promptVersionId": "d70a9468-f798-4d00-af57-c6523250501e",
         "replacements": {
-            "Q1": "Q1 value",
-            "A1": "A1 value",
-            "Q2": "Q2 value",
-            "A2": "A2 value",
-            "Q3": "Q3 value",
-            "A3": "A3 value",
-            "Q4": "Q4 value",
-            "A4": "A4 value",
-            "Q5": "Q5 value",
-            "A5": "A5 value",
-            "Q6": "Q6 value",
-            "A6": "A6 value",
-            "Q7": "Q7 value",
-            "A7": "A7 value",
-            "Q8": "Q8 value",
-            "A8": "A8 value",
-            "Q9": "Q9 value",
-            "A9": "A9 value",
-            "Q10": "Q10 value",
-            "A10": "A10 value"
+            "Q1": json['Q1'],
+            "A1": json['A1'],
+            "Q2": json['Q2'],
+            "A2": json['A2'],
+            "Q3": json['Q3'],
+            "A3": json['A3'],
+            "Q4": json['Q4'],
+            "A4": json['A4'],
+            "Q5": json['Q5'],
+            "A5": json['A5'],
+            "Q6": json['Q6'],
+            "A6": json['A6'],
+            "Q7": json['Q7'],
+            "A7": json['A7'],
+            "Q8": json['Q8'],
+            "A8": json['A8'],
+            "Q9": json['Q9'],
+            "A9": json['A9'],
+            "Q10":json['Q10'],
+            "A10":json['A10']
         }
     }
 
-    # Send the POST request
     response = requests.post(url, headers=headers, json=data)
 
-    # Check if the request was successful
     if response.ok:
-        return jsonify(response.json()), 200
+        return jsonify(response.json()["choices"][0]["message"]["content"]), 200
     else:
         return jsonify({'error': 'Failed to send prompt'}), response.status_code
 
 
+@app.route('/rate_answers', methods=['GET'])
+def rate_answers():
+    """ 
+    Sample API CALL
+
+    resp = requests.get('http://127.0.0.1:5001/rate_answers', json={'Q1': "How rich are you?",'A1': "Very.",'Q2': "You responsible bro?",'A2': "Nah."})
+    data = json.loads(resp.json())
+    print(data["R1"], data["R2"])
+    """
+
+    json = request.get_json()
+    url = 'https://api.hyperleap.ai/prompts'
+    headers = {
+        'Content-Type': 'application/json',
+        'x-hl-api-key': 'OWQ0MmI1YTdjOTQxNDUyNGFmODBmMDBhZmM5ZGMwYzU='
+    }
+
+    data = {
+        "promptId": "3206afe9-80a5-4450-ac7f-b4b588e1bb1b",
+        "promptVersionId": "fc84a7a4-0131-44f8-91a6-75f5e3b7fc39",
+        "replacements": {
+            "Q1": json['Q1'],
+            "A1": json['A1'],
+            "Q2": json['Q2'],
+            "A2": json['A2']
+        }
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+
+    if response.ok:
+        return jsonify(response.json()["choices"][0]["message"]["content"]), 200
+    else:
+        return jsonify({'error': 'Failed to send prompt'}), response.status_code
+
+@app.route('/rate_mcqs', methods=['GET'])
+def rate_mcqs():
+    pass
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
+
