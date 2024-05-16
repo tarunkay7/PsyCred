@@ -84,5 +84,5 @@ create_scores_table()
 create_creditworthiness_score_table()
 create_users_table()
 
-
-
+# Table DistrictInfo
+# Columns: (district VC, population INT, growth DEC, sex_ratio INT, literacy_rate DEC)
