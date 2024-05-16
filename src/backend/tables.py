@@ -266,7 +266,9 @@ def formula(age, edu, pop, growth, sex_ratio, literacy):
     if edu == 'P':
         edu = 20
     
-    return age + edu + pop + growth + sex_ratio + literacy
+    d = edu/20 + literacy/100 - age/45 
+    out = 1 / (1 + np.exp(-d))
+    return out
     
 
 def check_formula(formula):
