@@ -1,25 +1,21 @@
 from flask import Flask, jsonify
-import pyodbc
+import sqlite3
 
 app = Flask(__name__)
 
-# Configuration
-CONNECTION_STRING = 'Driver={ODBC Driver 18 for SQL Server};Server=tcp:dbserverpsy.database.windows.net,1433;Database=psycredDB;Uid={your_user_name};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;Authentication=ActiveDirectoryIntegrated'
-
+DATABASE = 'psycreditdb.db'
 
 def get_db_connection():
-    return pyodbc.connect(CONNECTION_STRING)
-
+    return sqlite3.connect(DATABASE)
 
 @app.route('/')
-def index():
+def test_connection():
     try:
         conn = get_db_connection()
-        if conn:
-            return jsonify("Connected")
+        conn.close()
+        return jsonify({'status': 'connected'})
     except Exception as e:
-        return str(e)
-
+        return jsonify({'status': 'error', 'message': str(e)})
 
 if __name__ == '__main__':
     app.run(debug=True)
