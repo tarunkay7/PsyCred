@@ -1,7 +1,53 @@
 import sqlite3
 from bs4 import BeautifulSoup
 import requests
-    
+
+from bs4 import BeautifulSoup
+import requests
+import Levenshtein
+import sqlite3
+
+def get_data_from_pincode(pincode, conn):
+    def pincode_to_district(pincode):
+        POSTAL_URL = 'https://api.postalpincode.in/pincode'
+        response = requests.get(f"{POSTAL_URL}/{pincode}")
+        content = response.json()[0]['PostOffice'][0]
+        return content['District']
+    district = pincode_to_district(pincode)
+    c = conn.cursor()
+    c.execute('SELECT * FROM DistrictInfo')
+    table = c.fetchall()
+    best_score = 100
+    best_row = None
+    for row in table:        
+        score = Levenshtein.distance(row[0], district, weights=(1, 1, 5))
+        if score < best_score:
+            best_score = score
+            best_row = row
+    return best_row
+
+# conn = sqlite3.connect('psy.db')
+# print(get_data_from_pincode(500049, conn))
+
+def insert_train_data(age, education, pincode, conn):
+    district, population, growth, sex_ratio = get_data_from_pincode(pincode, conn)
+    cursor = conn.cursor()
+
+    query = f'''
+        INSERT INTO TrainData
+        (age, education, district, population, growth, sex_ratio)
+        VALUES
+        ({age}, '{education}', '{district}', {population}, {growth}, {sex_ratio})
+    '''    
+
+    cursor.execute(query)
+    cursor.close()
+    conn.commit()
+
+
+conn = sqlite3.connect('psy.db')
+insert_train_data(19, 'High School', 500075, conn)
+
 def populate_district_info(conn):
     CENSUS_URL = 'https://www.census2011.co.in/district.php'
     page_number = 1
@@ -140,4 +186,24 @@ def create_district_info_table():
     conn.commit()
     conn.close()
 
-create_district_info_table()
+def create_train_table():
+    conn = sqlite3.connect('psy.db')
+    cursor = conn.cursor()
+    create_table_query = '''
+        CREATE TABLE IF NOT EXISTS TrainData (
+            age INTEGER,
+            education VARCHAR,
+            district VARCHAR,
+            population INTEGER,
+            growth DECIMAL,
+            sex_ratio DECIMAL
+        );
+        '''
+    try:
+        cursor.execute(create_table_query)
+        print("Table  created successfully.")
+    except sqlite3.Error as e:
+        print("Error creating table:", e)
+        
+    conn.commit()
+    conn.close()

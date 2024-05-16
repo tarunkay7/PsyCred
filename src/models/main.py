@@ -1,6 +1,7 @@
-from bs4 import BeautifulSoup
-import requests
-import Levenshtein
+
+conn = 
+print(get_data_from_district())
+    
 
 class User:
     """
@@ -15,13 +16,6 @@ class User:
         self.age = age
         self.education = education
         self.pincode = pincode
-        self.POSTAL_URL = 'https://api.postalpincode.in/pincode'
-        self.CENSUS_URL = 'https://www.census2011.co.in/district.php'
-
-    def fetch_district(self):
-        response = requests.get(f"{self.POSTAL_URL}/{self.pincode}")
-        content = response.json()[0]['PostOffice'][0]
-        return content['District']
 
     def fetch_district_literacy(self):
         page_number = 1
