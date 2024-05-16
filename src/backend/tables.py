@@ -79,8 +79,6 @@ def generate_train_data(n):
         print('Inserting', i)
         insert_train_data(gen_age(), gen_edu(), gen_pin())
 
-generate_train_data(100)
-
 def populate_district_info(conn):
     CENSUS_URL = 'https://www.census2011.co.in/district.php'
     page_number = 1
@@ -257,3 +255,29 @@ def drop_table():
 
     conn.commit()
     conn.close()
+
+def formula(age, edu, pop, growth, sex_ratio, literacy):
+    if edu == 'H':
+        edu = 5
+    if edu == 'B':
+        edu = 10
+    if edu == 'M':
+        edu = 15
+    if edu == 'P':
+        edu = 20
+    
+    return age + edu + pop + growth + sex_ratio + literacy
+    
+
+def check_formula(formula):
+    conn = sqlite3.connect('psy.db')    
+    c = conn.cursor()
+    c.execute('SELECT * FROM TrainData')
+    table = c.fetchall()
+    for row in table:
+        (age, edu, dist, pop, growth, sex_ratio, literacy) = row
+        score = formula(age, edu, pop, growth, sex_ratio, literacy)
+        print(row, score)
+    conn.close()
+
+check_formula(formula)
