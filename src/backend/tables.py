@@ -256,19 +256,20 @@ def drop_table():
     conn.commit()
     conn.close()
 
-def formula(age, edu, pop, growth, sex_ratio, literacy):
+def formula(age, edu, growth, literacy):
     if edu == 'H':
-        edu = 5
+        edu = 8
     if edu == 'B':
         edu = 10
     if edu == 'M':
         edu = 15
     if edu == 'P':
         edu = 20
-    
-    d = edu/20 + literacy/100 - age/45 
+
+    d = (1 + edu/10 + (literacy-30)/50 - age/25) * (max(5, growth)/30)
+    d = max(0, d)
     out = 1 / (1 + np.exp(-d))
-    return out
+    return 2 * (out - 0.5)
     
 
 def check_formula(formula):
@@ -278,7 +279,7 @@ def check_formula(formula):
     table = c.fetchall()
     for row in table:
         (age, edu, dist, pop, growth, sex_ratio, literacy) = row
-        score = formula(age, edu, pop, growth, sex_ratio, literacy)
+        score = formula(age, edu, growth, literacy)
         print(row, f"{score:.2f}")
     conn.close()
 
