@@ -197,8 +197,9 @@
               sub /= 2;
               
               score = (sub * 0.38 + mcq * 0.62) / 10;
-
+              
               sessionStorage.setItem("score", score)
+              window.location.href = 'http://127.0.0.1:5500/PsyCred/src/frontend/src/pages/psyco-res.html?'
               console.log("TOTAL SCORE " + (score))
           })
           .catch((error) => {

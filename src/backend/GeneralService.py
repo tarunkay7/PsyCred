@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify
 import sqlite3
 import random
 import os
+import numpy as np
 
 app = Flask(__name__)
 
@@ -218,7 +219,7 @@ def score_mcq():
         return jsonify(response.json()["choices"][0]["message"]["content"]), 200
     else:
         return jsonify({'error': 'Failed to send prompt'}), response.status_code
-
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
 

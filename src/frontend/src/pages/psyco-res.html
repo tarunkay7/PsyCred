@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Navbar styles */
+    .navbar-nav .nav-link:hover {
+            color: #01BF9B !important;
+        }
+
+        .navbar-nav {
+            text-align: center;
+        }
+
+        .navbar-nav .nav-item {
+            padding: 0 10px;
+        }
+
+        .dropdown {
+            margin-left: auto;
+        }
+
+        .dropdown-menu .nav-dropdown {
+            left: 280px !important;
+        }
+
+        .page-left {
+            padding-left: 60px;
+        }
+
+        .btn {
+            margin-top: 20px;
+        }
+
+    .option-btn {
+      cursor: pointer;
+    }
+
+    .selected {
+      background-color: #007bff !important;
+      color: #fff !important;
+    }
+  </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar fixed-top navbar-expand-lg" style="background-color: #f2f2f2;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" style="color: #2c2b29;">PsyCred</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#" style="color: #2c2b29;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="signup.html" style="color: #2c2b29;">Sign up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" style="color: #2c2b29;">Login</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #2c2b29;">
+                            Profile
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item nav-dropdown" href="#" style="color: black;">View Profile</a></li>
+                            <li><a class="dropdown-item nav-dropdown" href="#" style="color: black;">Edit Profile</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>    
+
+  <div class="container mt-5">
+    <form id="quizForm" onsubmit="event.preventDefault();">
+      <!-- Question 1 -->
+      <div class="card">
+        <div class="card-header">
+
+        </div>
+    </form>
+  </div>
+
+  <!-- Bootstrap JS and jQuery (for option highlighting) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('.option-btn').click(function() {
+        $(this).siblings().removeClass('selected');
+        $(this).addClass('selected');
+        checkAnswers();
+      });
+    });
+
+    $('.card-header')[0].innerHTML = 'Your Final Credit Score is ' + (sessionStorage.score * 0.3 + sessionStorage.demo * 0.7) * 900
+  </script>
+</body>
+</html>
