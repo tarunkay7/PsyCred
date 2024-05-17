@@ -80,7 +80,7 @@ def hyperleap_persona():
 
 
 
-@app.route('/gen_questions', methods=['GET'])
+@app.route('/gen_questions', methods=['GET', 'POST'])
 def gen_questions():
     """
     Sample API CALL
@@ -131,7 +131,7 @@ def gen_questions():
         return jsonify({'error': 'Failed to send prompt'}), response.status_code
 
 
-@app.route('/rate_answers', methods=['GET'])
+@app.route('/rate_answers', methods=['GET', 'POST'])
 def rate_answers():
     """ 
     Sample API CALL
@@ -166,7 +166,7 @@ def rate_answers():
     else:
         return jsonify({'error': 'Failed to send prompt'}), response.status_code
 
-@app.route('/score_mcq', methods=['GET'])
+@app.route('/score_mcq', methods=['GET', 'POST'])
 def score_mcq():
     """
     Sample API CALL
