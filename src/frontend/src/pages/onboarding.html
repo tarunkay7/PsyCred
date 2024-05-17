@@ -12,31 +12,37 @@
 
     <style>
         body {
-            background-color: #f2f2f2;
+            background-color: #fbf6f0;
+            color: #000000;
             padding-top: 100px;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Navbar styles */
-        .navbar-nav .nav-link:hover {
-            color: #01BF9B !important;
-        }
+    .navbar-nav .nav-link:hover {
+        color: #6895D2 !important;
+    }
 
-        .navbar-nav {
-            text-align: center;
-        }
+    .navbar-nav {
+        text-align: center;
+    }
 
-        .navbar-nav .nav-item {
-            padding: 0 10px;
-        }
+    .navbar-nav .nav-item {
+        padding: 0 10px;
+    }
 
-        .dropdown {
-            margin-left: auto;
-        }
+    .dropdown {
+        margin-left: auto;
+    }
 
-        .dropdown-menu .nav-dropdown {
-            left: 280px !important;
-        }
-
+    .dropdown-menu .nav-dropdown {
+        left: 100%;
+    }
         .page-left {
             padding-left: 60px;
         }
@@ -59,63 +65,62 @@
         .card {
             width: 500px;
         }
+
+        /* Fact styling */
+        .fact {
+            font-size: 1.2rem; /* Increased font size */
+            color: #555; /* Darkened text color */
+            font-style: italic; /* Italicized text */
+        }
     </style>
 </head>
 <body>
-<nav class="navbar fixed-top navbar-expand-lg" style="background-color: #ffffff; border-bottom: 1px solid #dddddd; padding: 10px 0;">
-    <div class="container-fluid">
-        <!-- Brand/logo -->
-        <a class="navbar-brand" href="#">
-            <img src="C:\Users\gayat\Desktop\CreditIQ Crew - Financial Inclusion\PsyCred\src\frontend\src\imgs\logo.png" alt="PsyCred Logo" style="height: 40px; width: auto;">
-        </a>
-
-        <!-- Toggler/collapsible Button -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Navbar links -->
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#" style="color: #333333;">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="signup.html" style="color: #333333;">Sign up</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="login.html" style="color: #333333;">Login</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #333333;">
-                        Profile
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item nav-dropdown" href="#" style="color: #333333;">View Profile</a></li>
-                        <li><a class="dropdown-item nav-dropdown" href="#" style="color: #333333;">Edit Profile</a></li>
-                    </ul>
-                </li>
-            </ul>
+    <nav class="navbar fixed-top navbar-expand-lg" style="background-color: #f2f2f2;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" style="color: #2c2b29;">PsyCred</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#" style="color: #2c2b29;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="signup.html" style="color: #2c2b29;">Sign up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" style="color: #2c2b29;">Login</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #2c2b29;">
+                            Profile
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item nav-dropdown" href="#" style="color: black;">View Profile</a></li>
+                            <li><a class="dropdown-item nav-dropdown" href="#" style="color: black;">Edit Profile</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>   
 
     
     <!-- Body -->
     <div class="body page-left">
         <h1 class="display-3">Get Started</h1>
 
-        <div class="card ">
-            <div class="text-bg-warning card-body">
-                Interest inventories: These assess an individual's preferences, likes, and dislikes regarding various activities, careers, or subjects.
+        <div class="card">
+            <div class="card-body">
+                <p class="fact">
+                    Interest inventories: These assess an individual's preferences, likes, and dislikes regarding various activities, careers, or subjects.
+                </p>
             </div>
         </div>
 
-        <button type="button" class="btn btn-primary">Sign up</button>
-
-        
-
-        <button type="button" class="btn btn-primary">Login</button>
+        <a href="signup.html"><button type="button" class="btn btn-primary">Sign up</button></a>
+        <a href="login.html"><button type="button" class="btn btn-primary">Login</button></a>
 
 
     </div>

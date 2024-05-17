@@ -12,13 +12,22 @@
 
     <style>
         body {
-            background-color: #f2f2f2;
+            background-color: #FBF6F0;
+            color: #000000;
             padding-top: 100px;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-
+    
         /* Navbar styles */
+    
         .navbar-nav .nav-link:hover {
-            color: #01BF9B !important;
+            color: #6895D2!important;
         }
 
         .navbar-nav {
@@ -34,53 +43,74 @@
         }
 
         .dropdown-menu .nav-dropdown {
-            left: 280px !important;
+            left: 100%;
         }
-
-        .page-left {
-            padding-left: 60px;
+    
+        .btn-outline-success {
+            color: #D04848;
+            border-color: #D04848;
         }
-
-        .btn {
-            margin-top: 20px;
+    
+        .btn-outline-success:hover {
+            background-color: #FFFFFF; 
+            color: #3E0061;
         }
+    
+        .btn-secondary {
+            background-color: #FFDA77;
+            border-color: #FFDA77;
+        }
+    
+        .btn-secondary:hover {
+            background-color: #D04848;
+            border-color: #D04848;
+        }
+    
+        .container {
+            text-align: center;
+        }
+    
+        .btn-container {
+            margin-top: 30px;
+        }
+    
     </style>
+    
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar fixed-top navbar-expand-lg" style="background-color: #f2f2f2;">
+    <nav class="navbar fixed-top navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#" style="color: #2c2b29;">PsyCred</a>
+            <a class="navbar-brand" href="#">PsyCred</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#" style="color: #2c2b29;">Home</a>
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="signup.html" style="color: #2c2b29;">Sign up</a>
-                    </li>
+                        <a class="nav-link" href="signup.html">Sign up</a></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="login.html" style="color: #2c2b29;">Login</a>
-                    </li>
+                        <a class="nav-link" href="login.html">Login</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #2c2b29;">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Profile
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item nav-dropdown" href="#" style="color: black;">View Profile</a></li>
-                            <li><a class="dropdown-item nav-dropdown" href="#" style="color: black;">Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="#">View Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Edit Profile</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
         </div>
-    </nav>    
+    </nav>
 
     <!-- Body -->
-    <div class="body page-left">
+    <div class="container">
+
         <h1 class="display-3">Hey there!</h1>
         <p>Please select your language to get started</p>
 
@@ -99,63 +129,49 @@
             </ul>
         </div>
 
-        <button type="button" class="btn btn-outline-success">Get Started</button>
+        <div class="btn-container">
+            <a href="onboarding.html"><button type="button" class="btn btn-outline-success">Get Started</button></a>
+        </div>
     </div>
 
     <!-- JavaScript -->
-<script>
-    // Language codes object
-    const languageCodes = {
-        "English": "en",
-        "Hindi": "hi",
-        "Marathi": "mr",
-        "Telugu": "te",
-        "Tamil": "ta",
-        "Kannada": "kn",
-        "Malayalam": "ml"
-    };
+    <script>
+        // Function to handle language selection
+        document.querySelectorAll('.languageSelect .dropdown-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const selectedLanguage = this.getAttribute('data-lang');
+                const languageName = this.textContent; // Get the selected language text
 
-    // Function to set a cookie
-    function setCookie(name, value, days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        const expires = "expires=" + date.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/";
-    }
+                // Set the dropdown button text to the selected language
+                document.querySelector('.btn-secondary').textContent = languageName;
 
-    // Function to handle language selection
-    document.querySelectorAll('.languageSelect .dropdown-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const selectedLanguage = this.getAttribute('data-lang');
-            const languageName = languageCodes[selectedLanguage];
-            
-            // Create lang object with selected language
-            const lang = {
-                language: selectedLanguage,
-                code: languageName
-            };
+                // Create lang object with selected language
+                const lang = {
+                    language: selectedLanguage,
+                    code: languageCodes[selectedLanguage]
+                };
 
-            // Make a POST request to the API endpoint
-            fetch('http://10.50.48.177:5001/api/v1/setlanguage', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(lang)
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Language set successfully:', selectedLanguage);
-                } else {
-                    console.error('Failed to set language:', response.statusText);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
+                // Make a POST request to the API endpoint
+                fetch('http://10.50.48.177:5001/api/v1/setlanguage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(lang)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Language set successfully:', selectedLanguage);
+                    } else {
+                        console.error('Failed to set language:', response.statusText);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
             });
         });
-    });
-</script>
+    </script>
 
 </body>
 </html>
