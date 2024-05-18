@@ -4,6 +4,11 @@ This is the official Repo for PsyCred during the 30 Hour Hackathon "MATHack"
 
 link: https://github.com/tarunkay7/PsyCred
 
+---
+
+## Psychometric Test Generation Pipeline
+![Psychometric Scoring](https://github.com/tarunkay7/PsyCred/assets/98266168/a0284167-1176-4cae-be86-8d02c77f7e36)
+
 ## Git Guide for Team
 
 There are 4 essential commands you use in Git which are 
